@@ -9,10 +9,21 @@ class RegressionModel:
             X: Input data of shape (m, d).
             y: Target values of shape (m,) or (m, 1).
         """
-        self.X = np.hstack([np.ones((X.shape[0], 1)), X])  
-        self.y = y.flatten()
+        X = np.ascontiguousarray(X, dtype=np.float64)
+        y = np.ascontiguousarray(np.ravel(y), dtype=np.float64)
+        m = X.shape[0]
+        Xb = np.hstack([np.ones((m, 1), dtype=np.float64), X])
+        
+        self.X = np.ascontiguousarray(Xb, dtype=np.float64)
+        self.y = y
         self.m, self.n = self.X.shape
-        self.w_star = np.linalg.pinv(self.X) @ self.y  
+
+        self.w_star = np.linalg.pinv(self.X) @ self.y
+        
+        self.A = (self.X.T @ self.X) / self.m       
+        self.b = (self.X.T @ self.y) / self.m           
+        self.c = 0.5 * (self.y @ self.y) / self.m
+
 
     def initialize_weights(self):
         """
@@ -34,7 +45,8 @@ class RegressionModel:
         Returns:
             Squared error loss for sample i.
         """
-        return 0.5 * (self.X[i] @ w - self.y[i]) ** 2
+        r = self.X[i] @ w - self.y[i]
+        return 0.5 * r ** 2
 
     def grad_f_i(self, w, i):
         """
@@ -47,7 +59,8 @@ class RegressionModel:
         Returns:
             Gradient vector of shape (n,).
         """
-        return (self.X[i] @ w - self.y[i]) * self.X[i]
+        x = self.X[i]
+        return (x @ w - self.y[i]) * x
 
     def F(self, w):
         """
@@ -59,8 +72,7 @@ class RegressionModel:
         Returns:
             Scalar average loss.
         """
-        err = self.X @ w - self.y
-        return 0.5 * np.mean(err ** 2)
+        return 0.5 * (w @ (self.A @ w)) - (self.b @ w) + self.c
 
     def grad_F(self, w):
         """
@@ -72,7 +84,7 @@ class RegressionModel:
         Returns:
             Gradient vector of shape (n,).
         """
-        return (1 / self.m) * (self.X.T @ (self.X @ w - self.y))
+        return self.A @ w - self.b
 
     def stochastic_grad(self, w, i):
         """
@@ -90,7 +102,7 @@ class RegressionModel:
         y = self.y[i]
         return (x @ w - y) * x
 
-    def mini_batch_grad(self, w, batch_size, X_batch, y_batch):
+    def mini_batch_grad(self, w, X_batch, y_batch):
         """
         Mini-batch gradient over a batch.
 
@@ -103,8 +115,9 @@ class RegressionModel:
         Returns:
             Average gradient over the batch.
         """
+        b = X_batch.shape[0] 
         err = X_batch @ w - y_batch
-        return (1 / batch_size) * (X_batch.T @ err)
+        return (X_batch.T @ err) / b
 
     def dist_to_opt(self, w):
         """

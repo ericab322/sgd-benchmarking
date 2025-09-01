@@ -83,7 +83,7 @@ def main():
         family_dir.mkdir(parents=True, exist_ok=True)
         family_csv = family_dir / "all_records.csv"
         df.to_csv(family_csv, index=False)  
-        print(f"\n📦 Saved {len(df)} records to {family_csv}")
+        print(f"\n Saved {len(df)} records to {family_csv}")
 
 
 if __name__ == "__main__":

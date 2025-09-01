@@ -43,7 +43,7 @@ class HalvingStepsize:
             self.k_r = k + 1
             self.halving_points.append(self.k_r)
             self.current_alpha = max(self.current_alpha / 2, self.min_alpha)
-            self.current_F_alpha = (self.current_alpha * self.L * self.M) / (2 * self.mu)
+            self.current_F_alpha = (self.current_alpha * self.L * self.M) / (2 * self.c * self.mu)
 
     def get(self, k=None):
         return self.current_alpha
