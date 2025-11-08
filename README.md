@@ -40,4 +40,5 @@ This project requires specific dependencies to ensure compatibility and reproduc
 
     ```bash
     conda activate sgd-regression
-    
+
+This repository is intended as an **educational and research resource** to bridge the gap between theoretical SGD guarantees and observed empirical behavior.
