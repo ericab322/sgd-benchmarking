@@ -1,27 +1,26 @@
 # Theoretically-Grounded SGD Framework
 
-This project explores and implements stochastic gradient descent (SGD) methods for convex and nonconvex objectives.
+This repository contains a reproducible experimental framework for studying stochastic gradient descent (SGD) on convex and non-convex objectives.
+It was developed as an independent research project to explore how empirical behavior compares with classical convergence theory.
 
-## Features
+## Overiew
 
-- Modular SGD framework for both convex (e.g., regression) and nonconvex (e.g., neural networks) objectives
-- Supports:
-  - Linear regression
-  - Polynomial regression (with configurable degree)
-  - Two-layer fully connected neural networks
-- Tracks convergence behavior using:
-  - **Fixed stepsize**
-  - **Diminishing stepsize**
-  - **Halving stepsize**
-- Automatically estimates and logs theoretical constants:
-  - `L` (Lipschitz smoothness)
-  - `c` (strong convexity)
-  - `mu`, `M`, `M_G` (gradient-related bounds)
-- Compatible with both synthetic and real-world datasets (e.g., CSV input)
-- Separate logs for:
-  - Experiment results (`experiment_log.csv`)
-  - Optimization parameters (`sgd_parameters_log.csv`)
-
+The framework provides end-to-end tools for:
+  - Polynomial and linear regression (convex objectives)
+  - Two-layer neural networks (non-convex objectives)
+  - Stepsize strategies: fixed, diminishing, and halving
+  - Automated estimation of theoretical constants: Lipschitz smoothness, strong convexity, and gradient-moment bounds
+It supports both synthetic and CSV-based real datasets and logs full experiment metadata for reproducibility.
+## Key Features
+- Modular SGD framework for convex and nonconvex optimization
+- Built-in tracking of convergence metrics (objective history, gradient norms, distance to optimum)
+- Reproducible experiment logging with per-seed CSV outputs
+- Configurable model complexity (polynomial degree, network width)
+- Ready-to-run experimental modes:
+    - convex_model
+    - convex_sample
+    - nonconvex_model
+    - nonconvex_sample
 ---
 
 ## Setting Up the Environment
