@@ -3,7 +3,7 @@
 This repository contains a reproducible experimental framework for studying stochastic gradient descent (SGD) on convex and non-convex objectives.
 It was developed as an independent research project to explore how empirical behavior compares with classical convergence theory.
 
-## Overiew
+## Overview
 
 The framework provides end-to-end tools for:
   - Polynomial and linear regression (convex objectives)
